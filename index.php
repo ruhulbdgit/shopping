@@ -1,5 +1,5 @@
 <?php
-
+//start session
 session_start();
 
 require_once('./php/CreateDb.php');
@@ -7,14 +7,15 @@ require_once('./php/component.php');
 
 
 // create instance of Createdb class
-$database = new CreateDb("Productdb", "Producttb");
+$database = new CreateDb("productdb", "producttb");
 
 if (isset($_POST['add'])) {
     /// print_r($_POST['product_id']);
+    echo $_POST['product_id'];
     if (isset($_SESSION['cart'])) {
 
         $item_array_id = array_column($_SESSION['cart'], "product_id");
-
+        //print_r($item_array_id);
         if (in_array($_POST['product_id'], $item_array_id)) {
             echo "<script>alert('Product is already added in the cart..!')</script>";
             echo "<script>window.location = 'index.php'</script>";
@@ -25,7 +26,7 @@ if (isset($_POST['add'])) {
                 'product_id' => $_POST['product_id']
             );
 
-            $_SESSION['cart'][$count] = $item_array;
+            $_SESSION['cart'][] = $item_array;
         }
     } else {
 
